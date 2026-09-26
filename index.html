@@ -2,19 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Задание 2: MindAR + A-Frame Image Tracking</title>
 
     <!-- Подключение A-Frame -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <!-- Подключение MindAR -->
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-aframe.prod.js"></script>
+
+    <!-- Подключение MindAR (ИСПРАВЛЕННАЯ ВЕРСИЯ 1.2.5 для устранения ошибки MIME) -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-aframe.prod.js"></script>
 
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background-color: #000;
         }
     </style>
 </head>
@@ -29,18 +31,19 @@
 
         <!-- Загрузка 3D модели -->
         <a-assets>
-            <a-asset-item id="astronaut" src="assets/RobotExpressive.glb"></a-asset-item>
+            <!-- Убедитесь, что файл RobotExpressive.glb лежит именно в папке assets! -->
+            <a-asset-item id="robotModel" src="assets/RobotExpressive.glb"></a-asset-item>
         </a-assets>
 
         <!-- Камера -->
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <!-- Целевой маркер (targetIndex: 0 - первый маркер) -->
+        <!-- Целевой маркер (targetIndex: 0 - первый маркер в файле targets.mind) -->
         <a-entity mindar-image-target="targetIndex: 0">
 
-            <!-- 3D модель астронавта -->
+            <!-- 3D модель (используем id "robotModel", который мы задали выше) -->
             <a-gltf-model
-                src="#astronaut"
+                src="#robotModel"
                 position="0 0 0"
                 rotation="0 0 0"
                 scale="0.01 0.01 0.01">
