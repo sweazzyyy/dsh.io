@@ -8,8 +8,8 @@
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-    <!-- MindAR ЛОКАЛЬНО (не через CDN!) -->
-    <script src="mindar-aframe.prod.js"></script>
+    <!-- MindAR через CDN (заменил локальный файл) -->
+    <script src="https://jsdelivr.net"></script>
 
     <style>body { margin: 0; padding: 0; overflow: hidden; background: #000; }</style>
 </head>
@@ -25,11 +25,11 @@
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <a-entity mindar-image-target="targetIndex: 0">
+
             <a-gltf-model src="#robotModel" position="0 0 0" rotation="0 0 0" scale="0.01 0.01 0.01"></a-gltf-model>
             <a-light type="ambient" color="#FFFFFF" intensity="0.8"></a-light>
             <a-light type="directional" position="1 2 1" intensity="0.6"></a-light>
-        </a-entity>
+
     </a-scene>
 </body>
 </html>
