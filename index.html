@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Задание 2 — Трекинг изображений (MindAR + A-Frame)</title>
-<!--
-  Запуск: только по HTTP(S)/localhost (нужен доступ к камере):
-    python -m http.server 8123
-  и открыть http://localhost:8123/task2-mindar/
-  Наведите камеру на targets/marker.png — рядом с моделью робота появится модель.
--->
-<!--<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.5.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-<style>
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #000;
-               font-family: system-ui, sans-serif; }
-  #hint { position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
-          color: #fff; background: rgba(0,0,0,.55); padding: 8px 14px;
-          border-radius: 16px; font-size: 13px; z-index: 10; pointer-events: none; }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задание 2: MindAR + A-Frame Image Tracking</title>
+
+    <!-- Подключение A-Frame -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <!-- Подключение MindAR -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-aframe.prod.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-<div id="hint">Наведите камеру на маркер (targets/marker.png)</div>
+    <!-- AR сцена с трекингом изображений -->
+    <a-scene
+        mindar-image="imageTargetSrc: targets.mind; autoStart: true; filterMinCF: 0.001; filterBeta: 0.001;"
+        color-space="sRGB"
+        renderer="colorManagement: true, physicallyCorrectLights"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
 
-<!-- imageTargetSrc — скомпилированный файл маркера (targets.mind) -->
-<a-scene mindar-image="imageTargetSrc: ./targets/targets.mind; maxTrack: 1; uiScanning: #scanning-overlay"
-         color-space="sRGB"
-         renderer="colorManagement: true, physicallyCorrectLights"
-         vr-mode-ui="enabled: false"
-         device-orientation-permission-ui="enabled: false">
+        <!-- Загрузка 3D модели -->
+        <a-assets>
+            <a-asset-item id="astronaut" src="assets/RobotExpressive.glb"></a-asset-item>
+        </a-assets>
 
-  <a-assets>
-    <a-asset-item id="robot" src="assets/RobotExpressive.glb"></a-asset-item>
-  </a-assets>
+        <!-- Камера -->
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+        <!-- Целевой маркер (targetIndex: 0 - первый маркер) -->
+        <a-entity mindar-image-target="targetIndex: 0">
 
-  <!-- Базовое освещение сцены -->
-  <a-entity light="type: ambient; color: #BBB; intensity: 0.9"></a-entity>
-  <a-entity light="type: directional; color: #FFF; intensity: 0.8" position="-0.5 1 1"></a-entity>
+            <!-- 3D модель астронавта -->
+            <a-gltf-model
+                src="#astronaut"
+                position="0 0 0"
+                rotation="0 0 0"
+                scale="0.01 0.01 0.01">
+            </a-gltf-model>
 
-  <!-- Модель появляется на маркере с индексом 0 -->
-  <a-entity mindar-image-target="targetIndex: 0">
-    <a-gltf-model src="#robot"
-                  position="0 0.1 0"
-                  rotation="0 0 0"
-                  scale="0.55 0.55 0.55"
-                  animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
-    </a-gltf-model>
-  </a-entity>
-</a-scene>
+            <!-- Освещение сцены -->
+            <a-light type="ambient" color="#FFFFFF" intensity="0.8"></a-light>
+            <a-light type="directional" position="1 2 1" intensity="0.6" color="#FFFFFF"></a-light>
+            <a-light type="point" position="0 2 0" intensity="0.5" color="#FFFFFF"></a-light>
+
+        </a-entity>
+    </a-scene>
 </body>
 </html>
